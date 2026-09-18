@@ -132,8 +132,8 @@ git push -u origin main
 ```html
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="TJSC1213" />
-<meta property="og:title" content="罗莉少芙BB愆湿" />
-<meta property="og:description" content="叶,Zi" />
+<meta property="og:title" content="♥我爱你许下愿♥" />
+<meta property="og:description" content="♥我爱你许下愿♥" />
 <meta property="og:url" content="https://tjsc1213.github.io/" />
 <meta property="og:image" content="https://tjsc1213.github.io/assets/og-cover.png" />
 <meta property="og:image:width" content="512" />
@@ -141,9 +141,7 @@ git push -u origin main
 <meta property="og:locale" content="zh_CN" />
 ```
 
-上面这段是 `index.html` 的实际内容。其余页面则是 `og:title` 等于自己的 `<title>`、`og:description` 等于自己的 `<meta name="description">`。
-
-**首页是刻意的例外**：它的 `og:title` 是「罗莉少芙BB愆湿」、`og:description` 是「叶,Zi」，与页面 `<title>`（`♥我爱你许下愿♥`）故意不一致——这样分享出去的预览卡片不会提前暴露页面内容，只有真正点进来才看得到「许下愿」。想让预览和 `<title>` 一致，把 `index.html` 里这两行改成一样的即可。
+上面这段是 `index.html` 的实际内容。各页面的 `og:title` 都等于自己的 `<title>`、`og:description` 都等于自己的 `<meta name="description">`。想改分享出去显示成什么，就改这两个。
 
 ### 三个硬性要求
 
