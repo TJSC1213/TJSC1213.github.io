@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title
+      data-zh="用纯 HTML/CSS/JS 做一个中英双语静态博客 · TJSC1213"
+      data-en="A bilingual static blog with plain HTML, CSS and JS · TJSC1213"
+    >
+      用纯 HTML/CSS/JS 做一个中英双语静态博客 · TJSC1213
+    </title>
+    <meta
+      name="description"
+      content="不引入框架和 CDN，用属性驱动的 i18n 与自写高亮，把中英双语站点部署到 GitHub Pages。"
+    />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <!-- 在首次绘制前定好主题与语言，避免闪烁 -->
+    <script>
+      (function () {
+        try {
+          var d = document.documentElement;
+          var t = localStorage.getItem('theme');
+          if (t !== 'light' && t !== 'dark') {
+            t =
+              window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          }
+          d.setAttribute('data-theme', t);
+          var l = localStorage.getItem('lang');
+          if (l === 'zh' || l === 'en') d.setAttribute('data-lang', l);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main" data-zh="跳到正文" data-en="Skip to content">跳到正文</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" data-zh-aria-label="TJSC1213 首页" data-en-aria-label="TJSC1213 home">
+          <span class="brand-mark" aria-hidden="true">TJ</span>
+          <span>TJSC1213</span>
+        </a>
+
+        <nav class="site-nav" id="site-nav" aria-label="主导航" data-zh-aria-label="主导航" data-en-aria-label="Main navigation">
+          <a href="/" data-zh="首页" data-en="Home">首页</a>
+          <a href="/blog/" aria-current="page" data-zh="博客" data-en="Blog">博客</a>
+          <a href="/projects/" data-zh="项目" data-en="Projects">项目</a>
+          <a href="/about/" data-zh="关于" data-en="About">关于</a>
+        </nav>
+
+        <div class="header-actions">
+          <button type="button" class="icon-btn" id="lang-toggle" aria-label="Switch to English">EN</button>
+
+          <button type="button" class="icon-btn" id="theme-toggle" aria-label="切换到深色主题">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            class="icon-btn menu-btn"
+            id="menu-toggle"
+            aria-expanded="false"
+            aria-controls="site-nav"
+            aria-label="打开导航菜单"
+            data-zh-aria-label="打开导航菜单"
+            data-en-aria-label="Open navigation menu"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="site-main" id="main">
+      <div class="container">
+        <div class="page-header">
+          <h1
+            class="page-title"
+            data-zh="用纯 HTML/CSS/JS 做一个中英双语静态博客"
+            data-en="A bilingual static blog with plain HTML, CSS and JS"
+          >
+            用纯 HTML/CSS/JS 做一个中英双语静态博客
+          </h1>
+          <div class="post-meta">
+            <time datetime="2026-09-12" data-zh="2026 年 9 月 12 日" data-en="Sep 12, 2026">2026 年 9 月 12 日</time>
+            <span class="dot" aria-hidden="true"></span>
+            <span data-zh="8 分钟阅读" data-en="8 min read">8 分钟阅读</span>
+          </div>
+          <div class="tags">
+            <span class="tag" data-zh="前端" data-en="Frontend">前端</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag" data-zh="建站" data-en="Site">建站</span>
+          </div>
+        </div>
+
+        <article class="prose">
+          <p
+            data-zh="这个站没有用 Jekyll、Hugo 或 Astro，也没有引入任何 CDN。整个仓库就是几个 HTML 文件、一份 CSS 和三个加起来不到 600 行的脚本。这篇记录几个关键决定是怎么做的。"
+            data-en="This site uses no Jekyll, no Hugo, no Astro, and no CDN. The repository is a few HTML files, one stylesheet, and three scripts totalling under 600 lines. Here is how the key decisions went."
+          >
+            这个站没有用 Jekyll、Hugo 或 Astro，也没有引入任何 CDN。整个仓库就是几个 HTML 文件、一份 CSS 和三个加起来不到 600 行的脚本。这篇记录几个关键决定是怎么做的。
+          </p>
+
+          <h2 data-zh="为什么不用框架" data-en="Why not a framework">为什么不用框架</h2>
+
+          <p
+            data-zh="框架解决的问题是「内容多、结构重复、手工维护成本高」。而一个人写的博客通常只有几十个页面，重复的部分其实是可控的。相比之下，框架带来的是构建步骤、依赖升级、以及一个需要长期维护的工具链。"
+            data-en="Frameworks solve the problem of “lots of content, repetitive structure, high manual cost”. A personal blog is usually a few dozen pages, where the repetition stays manageable. What a framework adds instead is a build step, dependency upgrades, and a toolchain you now have to maintain."
+          >
+            框架解决的问题是「内容多、结构重复、手工维护成本高」。而一个人写的博客通常只有几十个页面，重复的部分其实是可控的。相比之下，框架带来的是构建步骤、依赖升级、以及一个需要长期维护的工具链。
+          </p>
+
+          <p
+            data-zh="还有一个更实际的理由：不依赖 CDN 意味着没有网络请求依赖，页面在任何网络条件下都能完整渲染，也不会因为某个 CDN 域名被墙而变慢。"
+            data-en="There is a more practical reason too: with no CDN there is no network dependency for rendering, so the page renders fully under any network conditions — and no third-party domain can slow it down."
+          >
+            还有一个更实际的理由：不依赖 CDN 意味着没有网络请求依赖，页面在任何网络条件下都能完整渲染，也不会因为某个 CDN 域名被墙而变慢。
+          </p>
+
+          <h2 data-zh="双语：让 HTML 自己携带翻译" data-en="Bilingual: let the HTML carry its own translations">双语：让 HTML 自己携带翻译</h2>
+
+          <p
+            data-zh="常见做法是准备两份文案（JSON 字典或两套目录），再由脚本填充。这里换了个思路：把两种语言都写在元素上。"
+            data-en="The usual approach keeps two sets of strings — a JSON dictionary or two content trees — and lets a script fill them in. This site does the opposite: both languages live on the element itself."
+          >
+            常见做法是准备两份文案（JSON 字典或两套目录），再由脚本填充。这里换了个思路：把两种语言都写在元素上。
+          </p>
+
+          <pre><code class="language-html">&lt;!-- 中文文本同时作为无 JS 时的默认值 --&gt;
+&lt;a href="/" data-zh="首页" data-en="Home"&gt;首页&lt;/a&gt;
+
+&lt;!-- 属性也能翻译，后缀就是属性名 --&gt;
+&lt;button id="menu-toggle"
+        data-zh-aria-label="打开导航菜单"
+        data-en-aria-label="Open navigation menu"&gt;☰&lt;/button&gt;</code></pre>
+
+          <p
+            data-zh="这样做有几个好处：默认值就是 HTML 里写的文本，禁用 JavaScript 时站点依然可读；新增一段文案不需要同时改两个文件；对比翻译时两种语言就在同一行。"
+            data-en="This has a few benefits: the default is the text already in the HTML, so the site stays readable with JavaScript disabled; adding a string never means editing two files; and both languages sit on the same line when you compare them."
+          >
+            这样做有几个好处：默认值就是 HTML 里写的文本，禁用 JavaScript 时站点依然可读；新增一段文案不需要同时改两个文件；对比翻译时两种语言就在同一行。
+          </p>
+
+          <p
+            data-zh="切换逻辑本身很短 —— 遍历所有元素，把匹配当前语言后缀的属性值写回去："
+            data-en="The switching logic itself is short — walk the elements and write back whichever attribute matches the active language:"
+          >
+            切换逻辑本身很短 —— 遍历所有元素，把匹配当前语言后缀的属性值写回去：
+          </p>
+
+          <pre><code class="language-js">// 属性名形如 data-zh、data-en、data-zh-html、data-zh-aria-label
+var ATTR_RE = /^data-(zh|en)(?:-(.+))?$/;
+
+function applyTo(el, lang) {
+  for (var i = 0; i &lt; el.attributes.length; i++) {
+    var attr = el.attributes[i];
+    var m = ATTR_RE.exec(attr.name);
+    if (!m || m[1] !== lang) continue;
+
+    if (!m[2]) {
+      el.textContent = attr.value;        // data-zh / data-en
+    } else if (m[2] === 'html') {
+      el.innerHTML = attr.value;          // data-zh-html
+    } else {
+      el.setAttribute(m[2], attr.value);  // 其它任意属性
+    }
+  }
+}
+
+document.getElementById('lang-toggle').addEventListener('click', function () {
+  i18n.set(i18n.lang === 'zh' ? 'en' : 'zh');
+});</code></pre>
+
+          <p
+            data-zh="有个容易踩的坑：不能用 querySelectorAll('[data-zh], [data-en]') 来找元素，因为 data-zh-aria-label 这种形式匹配不到属性选择器。直接遍历所有元素反而更简单也更正确。"
+            data-en="One easy trap: you cannot select elements with querySelectorAll('[data-zh], [data-en]'), because forms like data-zh-aria-label do not match attribute selectors. Walking every element is both simpler and more correct."
+          >
+            有个容易踩的坑：不能用 <code>querySelectorAll('[data-zh], [data-en]')</code> 来找元素，因为 <code>data-zh-aria-label</code> 这种形式匹配不到属性选择器。直接遍历所有元素反而更简单也更正确。
+          </p>
+
+          <h2 data-zh="主题：在首次绘制之前决定" data-en="Theme: decide before the first paint">主题：在首次绘制之前决定</h2>
+
+          <p
+            data-zh="深浅色主题如果等脚本加载完再切换，用户会看到一闪而过的白屏。解决办法是在 head 里放一段同步脚本，在渲染前就把 data-theme 写到 html 上 —— 这段脚本必须内联，不能 defer。"
+            data-en="If dark mode is applied only after the script loads, users see a flash of the wrong theme. The fix is a small synchronous script in head that sets data-theme before rendering — it must be inline, never deferred."
+          >
+            深浅色主题如果等脚本加载完再切换，用户会看到一闪而过的白屏。解决办法是在 head 里放一段同步脚本，在渲染前就把 data-theme 写到 html 上 —— 这段脚本必须内联，不能 defer。
+          </p>
+
+          <pre><code class="language-css">:root {
+  --bg: #ffffff;
+  --text: #17191c;
+  --accent: #4f46e5;
+}
+
+/* 所有颜色都走变量，切换主题只需要换一组值 */
+html[data-theme="dark"] {
+  --bg: #0e1014;
+  --text: #e7e9ec;
+  --accent: #8b8cf8;
+
+  color-scheme: dark;   /* 让滚动条、表单控件也跟着变 */
+}</code></pre>
+
+          <p
+            data-zh="把 color-scheme 一起写上，浏览器原生的滚动条、输入框和下拉菜单也会跟着切换，不用自己写样式。"
+            data-en="Setting color-scheme as well makes native scrollbars, inputs and dropdowns follow along without any custom styling."
+          >
+            把 <code>color-scheme</code> 一起写上，浏览器原生的滚动条、输入框和下拉菜单也会跟着切换，不用自己写样式。
+          </p>
+
+          <h2 data-zh="代码高亮：核心不到六十行" data-en="Syntax highlighting: under sixty lines of core logic">代码高亮：核心不到六十行</h2>
+
+          <p
+            data-zh="引入 highlight.js 大约是 100KB 的体积和一个额外依赖。实际上博客里常见的语言就那么几种，每种语言的分词规则可以压缩成一个正则 —— 把多条规则合成一个多分支正则，用捕获组的序号反查命中的类型。"
+            data-en="Pulling in highlight.js costs roughly 100KB and another dependency. A blog only needs a handful of languages, and each language's rules compress into a single regex — combine the rules into one multi-branch pattern and use the capture-group index to look up which rule fired."
+          >
+            引入 highlight.js 大约是 100KB 的体积和一个额外依赖。实际上博客里常见的语言就那么几种，每种语言的分词规则可以压缩成一个正则 —— 把多条规则合成一个多分支正则，用捕获组的序号反查命中的类型。
+          </p>
+
+          <p
+            data-zh="关键约束是：规则内部必须全部使用非捕获组，否则分支编号会错位。分词完成后再做 HTML 转义，就不会出现标签注入。"
+            data-en="The critical constraint: every rule must use non-capturing groups internally, or the branch numbering shifts. After tokenizing, escaping the HTML prevents any tag injection."
+          >
+            关键约束是：规则内部必须全部使用非捕获组，否则分支编号会错位。分词完成后再做 HTML 转义，就不会出现标签注入。
+          </p>
+
+          <h2 data-zh="部署到 GitHub Pages" data-en="Deploying to GitHub Pages">部署到 GitHub Pages</h2>
+
+          <p
+            data-zh="仓库名必须叫 <用户名>.github.io，推上去之后 GitHub 会自动把它发布到根域名。因为是纯静态文件，不需要任何构建步骤，也不需要写 Actions 工作流。"
+            data-en="The repository must be named <username>.github.io — once pushed, GitHub publishes it at the root domain automatically. Because the files are already static, there is no build step and no Actions workflow to write."
+          >
+            仓库名必须叫 <code>&lt;用户名&gt;.github.io</code>，推上去之后 GitHub 会自动把它发布到根域名。因为是纯静态文件，不需要任何构建步骤，也不需要写 Actions 工作流。
+          </p>
+
+          <pre><code class="language-bash"># 在仓库目录里初始化，然后推到 GitHub
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin git@github.com:TJSC1213/TJSC1213.github.io.git
+git push -u origin main
+
+# 本地预览：直接起一个静态服务器即可
+python -m http.server 8000</code></pre>
+
+          <p
+            data-zh="还有一个容易漏掉的细节：加一个空的 .nojekyll 文件。GitHub Pages 默认会跑一遍 Jekyll，而 Jekyll 会忽略以下划线开头的文件 —— 放上 .nojekyll 可以完全跳过这一步。"
+            data-en="One easily missed detail: add an empty .nojekyll file. GitHub Pages runs Jekyll by default, and Jekyll ignores files starting with an underscore — .nojekyll skips the whole step."
+          >
+            还有一个容易漏掉的细节：加一个空的 <code>.nojekyll</code> 文件。GitHub Pages 默认会跑一遍 Jekyll，而 Jekyll 会忽略以下划线开头的文件 —— 放上 <code>.nojekyll</code> 可以完全跳过这一步。
+          </p>
+
+          <h2 data-zh="小结" data-en="Wrapping up">小结</h2>
+
+          <ul>
+            <li data-zh="内容量不大的个人站，手写比引入构建工具更省心。" data-en="For a small personal site, hand-writing beats adding a build tool.">
+              内容量不大的个人站，手写比引入构建工具更省心。
+            </li>
+            <li data-zh="把两种语言放在同一个元素上，维护成本比两套文案低得多。" data-en="Keeping both languages on one element is far cheaper than two content trees.">
+              把两种语言放在同一个元素上，维护成本比两套文案低得多。
+            </li>
+            <li data-zh="主题切换必须在首次绘制前完成，否则一定闪。" data-en="Theme switching must happen before the first paint, or it will always flash.">
+              主题切换必须在首次绘制前完成，否则一定闪。
+            </li>
+            <li data-zh="自写高亮的成本比想象中低，而且没有 CDN 依赖。" data-en="A hand-written highlighter costs less than expected and drops the CDN dependency.">
+              自写高亮的成本比想象中低，而且没有 CDN 依赖。
+            </li>
+          </ul>
+
+          <div class="post-end">
+            <a class="back-link" href="/blog/" data-zh="← 返回全部文章" data-en="← Back to all posts">← 返回全部文章</a>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          © <span id="year">2026</span> TJSC1213 ·
+          <span data-zh="用纯 HTML/CSS 手写而成" data-en="Hand-built with plain HTML &amp; CSS">用纯 HTML/CSS 手写而成</span>
+        </p>
+        <div class="footer-links">
+          <a href="https://github.com/TJSC1213" target="_blank" rel="noopener">GitHub</a>
+          <a href="/blog/" data-zh="博客" data-en="Blog">博客</a>
+          <a href="/about/" data-zh="关于" data-en="About">关于</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/assets/js/i18n.js" defer></script>
+    <script src="/assets/js/highlight.js" defer></script>
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+</html>
