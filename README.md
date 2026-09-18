@@ -14,7 +14,7 @@
 .
 ├── .nojekyll                     # 让 GitHub Pages 跳过 Jekyll 处理，必须有
 ├── .gitignore
-├── index.html                    # 首页：Hero + 最近文章 + 项目预览
+├── index.html                    # 首页：整页只有一个大字红标题的展示页
 ├── 404.html                      # 自定义 404
 ├── about/index.html              # 关于
 ├── blog/
@@ -31,7 +31,19 @@
         └── main.js               # 主题切换、移动菜单、复制按钮等交互
 ```
 
-每个页面都是**独立完整的 HTML**（`head`、导航栏、页脚都各自带一份）。这是刻意的取舍：没有构建步骤，但新增页面时需要复制一份完整文件当模板。
+除首页外的每个页面都是**独立完整的 HTML**（`head`、导航栏、页脚都各自带一份）。这是刻意的取舍：没有构建步骤，但新增页面时需要复制一份完整文件当模板。
+
+### 关于首页
+
+`index.html` 是个特例：整页只有一个居中的大字红标题 `♥我爱你许下愿♥`，**没有导航栏、没有页脚、也不加载任何脚本**。因此从首页出发点不进站内其它页面——请直接访问 `/blog/`、`/projects/`、`/about/`，或从这些页面顶部的导航栏走。
+
+首页的样式写在它自己的 `<style>` 里（`.wish` 类），不受 `assets/css/style.css` 的主题变量影响：
+
+- 字号 `clamp(2rem, 9vw, 8rem)`，随视口缩放
+- 颜色固定为纯红 `#ff0000`，背景固定为白色
+- 无论系统是深色还是浅色，首页都不跟随
+
+想改文案就改 `<h1 class="wish">` 里的文字和 `<title>`；想改大小或颜色就改同一文件 `<style>` 里的 `font-size` / `color`。
 
 ---
 
@@ -57,8 +69,10 @@ python -m http.server 8000
    - `<meta name="description">`
    - `.page-header` 里的标题、`<time datetime="...">` 日期、阅读时长、标签
    - `<article class="prose">` 里的正文
-4. **挂上链接**：在 `blog/index.html` 和首页 `index.html` 的文章列表里各加一条（新的放最前面）。
+4. **挂上链接**：在 `blog/index.html` 的文章列表里加一条（新的放最前面）。
 5. **检查双语**：所有可见文案都要同时写 `data-zh` 和 `data-en`。
+
+> 首页没有文章列表，所以新增文章时不用动 `index.html`。
 
 ### 双语写法
 
@@ -115,14 +129,14 @@ git push -u origin main
 
 - `about/index.html` —— 邮箱 `you@example.com`、工作经历时间线、个人简介段落
 - `projects/index.html` —— 除了 `githubBlog` 之外的项目卡片
-- `index.html` —— Hero 区的自我介绍 `hero-sub`
 
 ## 其他可自定义的地方
 
+- **首页标题**：`index.html` 里 `<h1 class="wish">` 的文字，以及同文件 `<style>` 里的 `font-size` 和 `color`
 - **主题色**：`assets/css/style.css` 顶部的 `--accent`（浅色）与 `html[data-theme="dark"]` 里的 `--accent`（深色）
 - **字体**：同文件的 `--font-sans` / `--font-mono`，默认走系统字体栈
 - **默认语言**：`assets/js/i18n.js` 里的 `DEFAULT_LANG`（当前为 `zh`）
-- **侧边社交链接**：各页面页脚 `.footer-links` 与 `about/index.html` 的 `.contact-list`
+- **社交链接**：各页面页脚 `.footer-links` 与 `about/index.html` 的 `.contact-list`
 
 ---
 
@@ -130,6 +144,8 @@ git push -u origin main
 
 A personal blog built with hand-written HTML, CSS and vanilla JavaScript — no static site generator, no build step, no CDN. Hosted on GitHub Pages at <https://tjsc1213.github.io>.
 
-Bilingual switching is attribute-driven (`data-zh` / `data-en`), syntax highlighting is a ~60-line regex tokenizer in `assets/js/highlight.js`, and dark mode is applied by a synchronous inline script in each page's `head` so there is no flash on load.
+The home page (`index.html`) is a deliberate exception: it is a standalone display page holding nothing but one large centred red headline, with no navigation, footer or scripts — so reach the rest of the site by visiting `/blog/`, `/projects/` or `/about/` directly.
+
+On the other pages, bilingual switching is attribute-driven (`data-zh` / `data-en`), syntax highlighting is a ~60-line regex tokenizer in `assets/js/highlight.js`, and dark mode is applied by a synchronous inline script in each page's `head` so there is no flash on load.
 
 To preview locally, run `python -m http.server 8000` from the repository root — absolute paths mean opening the files directly with `file://` will not render correctly.
